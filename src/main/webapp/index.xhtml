@@ -3,128 +3,51 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui"
-	template="/WEB-INF/templates/Layout.xhtml">
+	template="/WEB-INF/templates/Layout.xhtml"
+	xmlns:pe="http://primefaces.org/ui/extensions">
 
 	<ui:define name="content">
-		<h1 class="aw-page-title">Exchange</h1>
+		<h1 style="color: #FF8C00; margin-left: 100px; padding: 20px 0;">Compre
+			dólar com a melhor cotação e receba em casa</h1>
+		<h3 style="color: #BEBEBE; margin-left: 60px; padding: 20px 0;">A
+			sua viagem começa aqui! Economize comprando em uma casa de câmbio
+			online.</h3>
 
 		<h:form id="frm">
-
-			<p:toolbar>
-				<p:toolbarGroup>
-					<p:commandButton value="Salvar"
-						action="#{cadastroOrcamentoBean.salvar}" process="@this capaPanel"
-						update="@form" />
-				</p:toolbarGroup>
-			</p:toolbar>
 
 			<p:messages autoUpdate="false" />
 
 			<div class="ui-fluid">
-				<p:panelGrid id="capaPanel" columns="4" layout="grid"
+				<p:panelGrid id="capaPanel" columns="1" layout="grid"
 					style="margin-top: 20px; margin-bottom: 40px"
 					styleClass="panelgrid-noborder"
-					columnClasses="ui-grid-col-2, ui-grid-col-4, ui-grid-col-2, ui-grid-col-4">
-
-					<p:outputLabel value="Cliente" for="cliente" />
-					<p:inputText id="cliente"
-						value="#{cadastroOrcamentoBean.orcamento.cliente}" />
-
-					<p:outputLabel value="CPF" for="cpf" />
-					<p:inputMask id="cpf" mask="999.999.999-99"
-						value="#{cadastroOrcamentoBean.orcamento.cpf}" />
-
-					<p:outputLabel value="Telefone" for="telefone" />
-					<p:inputText id="telefone"
-						value="#{cadastroOrcamentoBean.orcamento.telefone}" />
-
-					<p:outputLabel value="Condição de pagto" for="condicaoPagto" />
-					<p:selectOneMenu id="condicaoPagto"
+					columnClasses="ui-grid-col-8, ui-grid-col-4">
+					<p:outputLabel value="Selecione a moeda" for="moeda" />
+					<p:selectOneMenu id="moeda"
 						value="#{cadastroOrcamentoBean.orcamento.condicaoPagamento}">
 						<f:selectItem itemLabel="Selecione" />
-						<f:selectItem itemLabel="A vista" itemValue="A vista" />
-						<f:selectItem itemLabel="30 dias" itemValue="30 dias" />
-						<f:selectItem itemLabel="30 + 60 dias" itemValue="30 + 60 dias" />
+						<f:selectItem itemLabel="Dólar" itemValue="dolar" />
+						<f:selectItem itemLabel="Euro" itemValue="euro" />
+						<f:selectItem itemLabel="Peso Argentino" itemValue="peso" />
 					</p:selectOneMenu>
-
-					<p:outputLabel value="Dias entrega" for="diasEntrega" />
-					<p:inputText id="diasEntrega"
+					<p:outputLabel value="Informe a quantidade desejada" for="qtde" />
+					<p:inputNumber id="qtde" symbol="$" decimalSeparator=","
+						thousandSeparator="."
 						value="#{cadastroOrcamentoBean.orcamento.diasEntrega}" />
-
-					<p:outputLabel value="Validade" for="validade" />
-					<p:calendar id="validade" pattern="dd/MM/yyyy"
-						value="#{cadastroOrcamentoBean.orcamento.dataValidade}" />
-
+					<p:outputLabel value="=" style="font-weight: bold;" />
+					<p:inputNumber symbol="R$" decimalSeparator=","
+						thousandSeparator="." disabled="true"
+						value="#{cadastroOrcamentoBean.orcamento.diasEntrega}" />
+					<p:outputLabel value="US$1,00 = R$ 3,90" />
 				</p:panelGrid>
 			</div>
-
-			<p:commandButton value="Novo item"
-				action="#{cadastroOrcamentoBean.novoItem}"
-				oncomplete="PF('itemDialog').show()" process="@this"
-				update="itemPanel">
-				<p:resetInput target="itemPanel" />
-			</p:commandButton>
-
-			<p:dataTable id="itensTable"
-				value="#{cadastroOrcamentoBean.orcamento.itens}" var="item"
-				emptyMessage="Nenhum item adicionado." reflow="true"
-				style="margin-top: 10px">
-
-				<p:column headerText="Descrição">
-					<h:outputText value="#{item.descricao}" />
-				</p:column>
-
-				<p:column headerText="Tipo">
-					<h:outputText value="#{item.tipo.descricao}" />
-				</p:column>
-
-				<p:column headerText="Preço">
-					<h:outputText value="#{item.preco}">
-						<f:convertNumber type="currency" />
-					</h:outputText>
-				</p:column>
-
-			</p:dataTable>
-
-			<p:dialog widgetVar="itemDialog" header="Novo item" resizable="false"
-				style="min-width: 300px" responsive="true">
-
-				<h:panelGroup id="itemPanel" layout="block" styleClass="ui-fluid">
-					<p:messages id="msgDialog" autoUpdate="false" />
-
-					<p:panelGrid columns="2" layout="grid"
-						styleClass="panelgrid-noborder"
-						columnClasses="ui-grid-col-4, ui-grid-col-8">
-
-						<p:outputLabel value="Descrição" for="descricao" />
-						<p:inputText id="descricao"
-							value="#{cadastroOrcamentoBean.item.descricao}" />
-
-						<p:outputLabel value="Tipo" for="tipo" />
-						<p:selectOneMenu id="tipo"
-							value="#{cadastroOrcamentoBean.item.tipo}">
-							<f:selectItem itemLabel="Selecione" />
-							<f:selectItem itemLabel="Produto" itemValue="PRODUTO" />
-							<f:selectItem itemLabel="Serviço" itemValue="SERVICO" />
-						</p:selectOneMenu>
-
-						<p:outputLabel value="Preço" for="preco" />
-						<p:inputText id="preco"
-							value="#{cadastroOrcamentoBean.item.preco}">
-							<f:convertNumber />
-						</p:inputText>
-
-						<p:outputLabel />
-						<p:commandButton value="Adicionar"
-							action="#{cadastroOrcamentoBean.adicionarItem}"
-							process="itemPanel" update="itemPanel itensTable"
-							oncomplete="if (!args.validationFailed) PF('itemDialog').hide()" />
-
-					</p:panelGrid>
-
-				</h:panelGroup>
-
-			</p:dialog>
+			<p:toolbar>
+				<p:toolbarGroup align="center">
+					<p:commandButton value="Comprar"
+						action="#{cadastroOrcamentoBean.salvar}" process="@this capaPanel"
+						update="@form" />
+				</p:toolbarGroup>
+			</p:toolbar>
 
 		</h:form>
 	</ui:define>
