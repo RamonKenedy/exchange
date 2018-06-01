@@ -22,9 +22,16 @@
 					style="margin-top: 20px; margin-bottom: 40px"
 					styleClass="panelgrid-noborder"
 					columnClasses="ui-grid-col-8, ui-grid-col-4">
+					<p:outputLabel value="Você deseja" for="tipo" />
+					<p:selectOneMenu id="tipo"
+						value="#{cadastroTransacaoBean.transacao.tipoCambio}">
+						<f:selectItem itemLabel="Comprar" itemValue="COMPRA" />
+						<f:selectItem itemLabel="Vender" itemValue="VENDA" />
+						<p:ajax event="change" update="buttonFinalizar" />
+					</p:selectOneMenu>
 					<p:outputLabel value="Selecione a moeda" for="moeda" />
 					<p:selectOneMenu id="moeda"
-						value="#{cadastroOrcamentoBean.orcamento.condicaoPagamento}">
+						value="#{cadastroTransacaoBean.transacao.moeda}">
 						<f:selectItem itemLabel="Selecione" />
 						<f:selectItem itemLabel="Dólar" itemValue="dolar" />
 						<f:selectItem itemLabel="Euro" itemValue="euro" />
@@ -33,22 +40,25 @@
 					<p:outputLabel value="Informe a quantidade desejada" for="qtde" />
 					<p:inputNumber id="qtde" symbol="$" decimalSeparator=","
 						thousandSeparator="."
-						value="#{cadastroOrcamentoBean.orcamento.diasEntrega}" />
+						value="#{cadastroTransacaoBean.transacao.quantidade}">
+						<p:ajax event="keyup" update="valorTotal" />
+					</p:inputNumber>
 					<p:outputLabel value="=" style="font-weight: bold;" />
-					<p:inputNumber symbol="R$" decimalSeparator=","
+					<p:inputNumber id="valorTotal" symbol="R$" decimalSeparator=","
 						thousandSeparator="." disabled="true"
-						value="#{cadastroOrcamentoBean.orcamento.diasEntrega}" />
-					<p:outputLabel value="US$1,00 = R$ 3,90" />
+						value="#{cadastroTransacaoBean.transacao.valorTotal}" />
+					<p:outputLabel
+						value="US$1,00 = #{cadastroTransacaoBean.transacao.valorUnitario}" />
 				</p:panelGrid>
+				<p:toolbar>
+					<p:toolbarGroup align="center">
+						<p:commandButton id="buttonFinalizar"
+							value="#{cadastroTransacaoBean.nomeBotao}"
+							action="#{cadastroTransacaoBean.salvar}"
+							process="@this capaPanel" update="@form"/>
+					</p:toolbarGroup>
+				</p:toolbar>
 			</div>
-			<p:toolbar>
-				<p:toolbarGroup align="center">
-					<p:commandButton value="Comprar"
-						action="#{cadastroOrcamentoBean.salvar}" process="@this capaPanel"
-						update="@form" />
-				</p:toolbarGroup>
-			</p:toolbar>
-
 		</h:form>
 	</ui:define>
 

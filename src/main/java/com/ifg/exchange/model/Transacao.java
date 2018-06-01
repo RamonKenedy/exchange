@@ -5,6 +5,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,10 +24,11 @@ public class Transacao {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@NotEmpty
+	// @NotEmpty
 	private Cliente cliente;
 
 	@NotEmpty
+	@Enumerated(EnumType.STRING)
 	@Column(name = "tipo_cambio")
 	private TipoCambio tipoCambio;
 
@@ -33,11 +36,12 @@ public class Transacao {
 	private String moeda;
 
 	@NotEmpty
-	private BigDecimal quantidade;
+	@Column(nullable = false, precision = 10, scale = 2)
+	private BigDecimal quantidade = BigDecimal.ZERO;
 
 	@NotEmpty
-	@Column(name = "valor_unit")
-	private BigDecimal valorUnitario;
+	@Column(name = "valor_unit", nullable = false, precision = 10, scale = 2)
+	private BigDecimal valorUnitario = BigDecimal.ZERO;
 
 	@Column(name = "dias_entrega")
 	private Integer diasEntrega;
