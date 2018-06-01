@@ -1,13 +1,13 @@
 package com.ifg.exchange.model;
 
-public enum TipoItem {
+public enum TipoCambio {
 
-	PRODUTO("Produto"),
-	SERVICO("Serviço");
+	COMPRA("Compra"),
+	VENDA("Venda");
 	
 	private String descricao;
 
-	TipoItem(String descricao) {
+	TipoCambio(String descricao) {
 		this.descricao = descricao;
 	}
 	
