@@ -24,10 +24,9 @@ public class Transacao {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	// @NotEmpty
-	private Cliente cliente;
-
 	@NotEmpty
+	private String cliente;
+
 	@Enumerated(EnumType.STRING)
 	@Column(name = "tipo_cambio")
 	private TipoCambio tipoCambio;
@@ -35,11 +34,9 @@ public class Transacao {
 	@NotEmpty
 	private String moeda;
 
-	@NotEmpty
 	@Column(nullable = false, precision = 10, scale = 2)
 	private BigDecimal quantidade = BigDecimal.ZERO;
 
-	@NotEmpty
 	@Column(name = "valor_unit", nullable = false, precision = 10, scale = 2)
 	private BigDecimal valorUnitario = BigDecimal.ZERO;
 
@@ -61,11 +58,11 @@ public class Transacao {
 		this.id = id;
 	}
 
-	public Cliente getCliente() {
+	public String getCliente() {
 		return cliente;
 	}
 
-	public void setCliente(Cliente cliente) {
+	public void setCliente(String cliente) {
 		this.cliente = cliente;
 	}
 

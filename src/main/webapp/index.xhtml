@@ -22,11 +22,14 @@
 					style="margin-top: 20px; margin-bottom: 40px"
 					styleClass="panelgrid-noborder"
 					columnClasses="ui-grid-col-8, ui-grid-col-4">
+					<p:outputLabel for="cliente" value="Cliente" />
+					<p:inputText id="cliente"
+						value="#{cadastroTransacaoBean.transacao.cliente}" />
 					<p:outputLabel value="Você deseja" for="tipo" />
 					<p:selectOneMenu id="tipo"
 						value="#{cadastroTransacaoBean.transacao.tipoCambio}">
-						<f:selectItem itemLabel="Comprar" itemValue="COMPRA" />
-						<f:selectItem itemLabel="Vender" itemValue="VENDA" />
+						<f:selectItem itemLabel="Compra" itemValue="COMPRA" />
+						<f:selectItem itemLabel="Venda" itemValue="VENDA" />
 						<p:ajax event="change" update="buttonFinalizar" />
 					</p:selectOneMenu>
 					<p:outputLabel value="Selecione a moeda" for="moeda" />
@@ -55,7 +58,7 @@
 						<p:commandButton id="buttonFinalizar"
 							value="#{cadastroTransacaoBean.nomeBotao}"
 							action="#{cadastroTransacaoBean.salvar}"
-							process="@this capaPanel" update="@form"/>
+							process="@this capaPanel" update="@form" />
 					</p:toolbarGroup>
 				</p:toolbar>
 			</div>
