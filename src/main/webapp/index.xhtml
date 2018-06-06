@@ -40,12 +40,13 @@
 						<f:selectItem itemLabel="Euro" itemValue="euro" />
 						<f:selectItem itemLabel="Peso Argentino" itemValue="peso" />
 					</p:selectOneMenu>
-					<p:outputLabel value="Informe a quantidade desejada" for="qtde" />
-					<p:inputNumber id="qtde" symbol="$" decimalSeparator=","
-						thousandSeparator="."
-						value="#{cadastroTransacaoBean.transacao.quantidade}">
-						<p:ajax update="idValorTotal" />
-					</p:inputNumber>
+					<p:outputLabel value="Informe a quantidade desejada"
+						for="qtdeSpinner" />
+					<p:spinner id="qtdeSpinner"
+						value="#{cadastroTransacaoBean.transacao.quantidade}" prefix="$"
+						min="0">
+						<p:ajax update="idValorTotal" process="@this" />
+					</p:spinner>
 					<p:outputLabel value="Valor Unitário" />
 					<p:outputLabel
 						value="$ #{cadastroTransacaoBean.transacao.valorUnitario}"

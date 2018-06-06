@@ -53,7 +53,7 @@ public class Transacao {
 	private Date data;
 
 	public BigDecimal getValorTotal() {
-		return quantidade.multiply(valorUnitario);
+		return quantidade.multiply(valorUnitario).setScale(2, BigDecimal.ROUND_HALF_EVEN);
 	}
 
 	public Long getId() {
