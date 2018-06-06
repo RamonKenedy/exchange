@@ -44,25 +44,27 @@
 					<p:inputNumber id="qtde" symbol="$" decimalSeparator=","
 						thousandSeparator="."
 						value="#{cadastroTransacaoBean.transacao.quantidade}">
-						<p:ajax event="keyup" update="valorTotal" />
+						<p:ajax update="idValorTotal" />
 					</p:inputNumber>
-					<p:outputLabel value="=" style="font-weight: bold;" />
-					<p:inputNumber id="valorTotal" symbol="R$" decimalSeparator=","
-						thousandSeparator="." disabled="true"
-						value="#{cadastroTransacaoBean.transacao.valorTotal}" />
+					<p:outputLabel value="Valor Unitário" />
 					<p:outputLabel
-						value="US$1,00 = #{cadastroTransacaoBean.transacao.valorUnitario}" />
+						value="$ #{cadastroTransacaoBean.transacao.valorUnitario}"
+						style="font-weight: bold;" />
+					<p:outputLabel value="Valor Total" />
+					<p:outputLabel id="idValorTotal"
+						value="$ #{cadastroTransacaoBean.transacao.valorTotal}"
+						style="font-weight: bold;" />
+					<p:commandButton id="buttonFinalizar"
+						value="#{cadastroTransacaoBean.nomeBotao}"
+						action="#{cadastroTransacaoBean.salvar}" process="@this capaPanel"
+						update="@form" />
 				</p:panelGrid>
-				<p:toolbar>
-					<p:toolbarGroup align="center">
-						<p:commandButton id="buttonFinalizar"
-							value="#{cadastroTransacaoBean.nomeBotao}"
-							action="#{cadastroTransacaoBean.salvar}"
-							process="@this capaPanel" update="@form" />
-					</p:toolbarGroup>
-				</p:toolbar>
 			</div>
+			<script type="text/javascript">
+				enterTab.aplicar();
+			</script>
 		</h:form>
+
 	</ui:define>
 
 </ui:composition>

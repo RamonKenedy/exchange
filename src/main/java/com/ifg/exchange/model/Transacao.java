@@ -1,6 +1,7 @@
 package com.ifg.exchange.model;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -13,8 +14,13 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.rpc.ServiceException;
 
 import org.hibernate.validator.constraints.NotEmpty;
+
+import com.fincatto.cotacao.classes.Cotacao;
+import com.fincatto.cotacao.classes.Indice;
+import com.fincatto.cotacao.ws.WSConsulta;
 
 @Entity
 @Table(name = "transacao")
@@ -91,6 +97,12 @@ public class Transacao {
 	}
 
 	public BigDecimal getValorUnitario() {
+		try {
+			Cotacao cotacao = new WSConsulta().getCotacao(Indice.DOLAR_VENDA, LocalDate.now());
+			valorUnitario = cotacao.getValor();
+		} catch (ServiceException e) {
+			e.printStackTrace();
+		}
 		return valorUnitario;
 	}
 
