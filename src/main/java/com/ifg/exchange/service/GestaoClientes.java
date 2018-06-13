@@ -24,8 +24,8 @@ public class GestaoClientes implements Serializable {
 	}
 
 	@Transacional
-	public void excluir(Cliente empresa) {
-		clientes.remover(empresa);
+	public void excluir(Cliente cliente) {
+		clientes.remover(cliente);
 	}
 
 }

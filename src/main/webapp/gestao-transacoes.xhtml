@@ -1,0 +1,149 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/Layout.xhtml"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<ui:define name="content">
+		<f:metadata>
+			<f:viewAction action="#{cadastroTransacaoBean.consultar}" />
+		</f:metadata>
+
+		<h1 class="aw-page-title">Transações</h1>
+
+		<h:form id="frm">
+
+			<p:messages id="msgs" />
+
+			<p:toolbar id="toolbar">
+				<f:facet name="left">
+					<p:commandButton value="Novo" icon="ui-icon-document"
+						action="#{cadastroTransacaoBean.prepararNovoCadastro}"
+						process="@this" update="transacao-dialog"
+						oncomplete="PF('edicaoTransacaoDialog').show()">
+						<p:resetInput target="transacao-dialog" />
+					</p:commandButton>
+
+					<span class="ui-separator"> <span
+						class="ui-icon ui-icon-grip-dotted-vertical" />
+					</span>
+
+					<p:commandButton icon="ui-icon-pencil" title="Editar"
+						process="@this" update="transacao-dialog"
+						oncomplete="PF('edicaoTransacaoDialog').show()"
+						disabled="#{cadastroTransacaoBean.transacaoSelecionada == null}">
+						<p:resetInput target="transacao-dialog" />
+
+						<f:setPropertyActionListener
+							value="#{cadastroTransacaoBean.transacaoSelecionada}"
+							target="#{cadastroTransacaoBean.transacaoEdicao}" />
+					</p:commandButton>
+
+					<p:commandButton icon="ui-icon-trash" title="Excluir"
+						process="@this" update="transacoes-table msgs toolbar"
+						action="#{cadastroTransacaoBean.excluir}"
+						disabled="#{cadastroTransacaoBean.transacaoSelecionada == null}" />
+
+				</f:facet>
+			</p:toolbar>
+
+			<p:dataTable value="#{cadastroTransacaoBean.todasTransacoes}"
+				var="transacao" emptyMessage="Nenhum transacao cadastrado."
+				rows="10" paginator="true" paginatorPosition="bottom"
+				style="margin-top: 10px" id="transacoes-table"
+				selection="#{cadastroTransacaoBean.transacaoSelecionada}"
+				selectionMode="single" rowKey="#{transacao.id}">
+
+				<p:ajax event="rowSelect" update=":frm:toolbar" />
+				<p:ajax event="rowUnselect" update=":frm:toolbar" />
+
+				<p:column headerText="Cliente" sortBy="#{transacao.cliente.nome}">
+					<h:outputText value="#{transacao.cliente.nome}" />
+				</p:column>
+				<p:column headerText="Data" sortBy="#{transacao.data}">
+					<h:outputLabel value="#{transacao.data}">
+						<f:convertDateTime pattern="dd/MM/yyyy"
+							timeZone="America/Sao_Paulo" />
+					</h:outputLabel>
+				</p:column>
+				<p:column headerText="Quantidade">
+					<h:outputLabel value="#{transacao.quantidade}">
+						<f:convertNumber maxFractionDigits="2" />
+					</h:outputLabel>
+				</p:column>
+				<p:column headerText="Valor Total">
+					<h:outputLabel value="#{transacao.valorTotal}">
+						<f:convertNumber type="currency" currencySymbol="R$"
+							locale="pt-BR" />
+					</h:outputLabel>
+				</p:column>
+				<p:column headerText="Tipo câmbio" width="120">
+					<h:outputText value="#{transacao.tipoCambio.descricao}" />
+				</p:column>
+				<p:column headerText="Moeda" width="120">
+					<h:outputText value="#{transacao.moeda}" />
+				</p:column>
+
+			</p:dataTable>
+
+			<p:dialog header="Nova transação" widgetVar="edicaoTransacaoDialog"
+				id="transacao-dialog" resizable="false" modal="true"
+				closeOnEscape="true">
+
+				<p:messages id="msgs-dialog" />
+				<p:defaultCommand target="salvar-button" scope="transacao-dialog" />
+
+				<h:panelGrid columns="2" id="painel-dialog">
+					<p:outputLabel for="cliente" value="Cliente" />
+					<p:selectOneMenu id="cliente"
+						value="#{cadastroTransacaoBean.cliente}">
+						<f:selectItem itemLabel="Selecione" itemValue="" />
+						<f:selectItems value="#{cadastroTransacaoBean.clientesTela}" />
+					</p:selectOneMenu>
+					<p:outputLabel value="Você deseja" for="tipo" />
+					<p:selectOneMenu id="tipo"
+						value="#{cadastroTransacaoBean.transacaoEdicao.tipoCambio}">
+						<f:selectItem itemLabel="Compra" itemValue="COMPRA" />
+						<f:selectItem itemLabel="Venda" itemValue="VENDA" />
+						<p:ajax event="change" update="salvar-button" />
+					</p:selectOneMenu>
+					<p:outputLabel value="Selecione a moeda" for="moeda" />
+					<p:selectOneMenu id="moeda"
+						value="#{cadastroTransacaoBean.transacaoEdicao.moeda}">
+						<f:selectItem itemLabel="Dólar" itemValue="dolar" />
+						<f:selectItem itemLabel="Euro" itemValue="euro" />
+						<f:selectItem itemLabel="Peso Argentino" itemValue="peso" />
+						<p:ajax event="change" update="idValorUnit, idValorTotal"
+							process="@this" />
+					</p:selectOneMenu>
+					<p:outputLabel value="Informe a quantidade desejada"
+						for="qtdeSpinner" />
+					<p:spinner id="qtdeSpinner"
+						value="#{cadastroTransacaoBean.transacaoEdicao.quantidade}"
+						prefix="$" min="0">
+						<p:ajax update="idValorTotal" process="@this" />
+					</p:spinner>
+					<p:outputLabel value="Valor Unitário" />
+					<p:outputLabel id="idValorUnit"
+						value="$ #{cadastroTransacaoBean.transacaoEdicao.valorUnitario}"
+						style="font-weight: bold;" />
+					<p:outputLabel value="Valor Total" />
+					<p:outputLabel id="idValorTotal"
+						value="$ #{cadastroTransacaoBean.transacaoEdicao.valorTotal}"
+						style="font-weight: bold;" />
+					<p:outputLabel />
+					<p:commandButton id="salvar-button"
+						value="#{cadastroTransacaoBean.nomeBotao}"
+						action="#{cadastroTransacaoBean.salvar}"
+						process="transacao-dialog" update="msgs-dialog painel-dialog"
+						oncomplete="if (!args.validationFailed) PF('edicaoTransacaoDialog').hide()" />
+
+				</h:panelGrid>
+			</p:dialog>
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>
