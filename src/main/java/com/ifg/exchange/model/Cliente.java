@@ -16,12 +16,24 @@ public class Cliente {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	
 	@NotEmpty
 	private String nome;
 
 	@NotEmpty
 	@CPF
 	private String cpf;
+	
+	@NotEmpty
+	private String email;
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
 	public Long getId() {
 		return id;

@@ -3,6 +3,7 @@ package com.ifg.exchange.controller;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -22,7 +23,13 @@ public class CadastroTransacaoBean implements Serializable {
 	@Inject
 	private GestaoTransacoes gestaoTransacoes;
 
-	private Transacao transacao = new Transacao();
+	private Transacao transacao;
+
+	@PostConstruct
+	protected void init() {
+		transacao = new Transacao();
+		transacao.setMoeda("dolar");
+	}
 
 	public void salvar() {
 		transacao.setData(new Date());

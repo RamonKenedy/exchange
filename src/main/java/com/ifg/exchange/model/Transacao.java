@@ -98,8 +98,26 @@ public class Transacao {
 
 	public BigDecimal getValorUnitario() {
 		try {
-			Cotacao cotacao = new WSConsulta().getCotacao(Indice.DOLAR_VENDA, LocalDate.now());
-			valorUnitario = cotacao.getValor();
+			Cotacao cotacao;
+			switch (getMoeda()) {
+
+			case "euro":
+				cotacao = new WSConsulta().getCotacao(Indice.EURO_VENDA, LocalDate.of(2018, 6, 7));
+				valorUnitario = cotacao.getValor();
+				return valorUnitario;
+
+			case "peso":
+				//cotacao = new WSConsulta().getCotacao(Indice.PESO_ARGENTINO_VENDA, LocalDate.of(2018, 6, 7));
+				//valorUnitario = cotacao.getValor();
+				valorUnitario = new BigDecimal("0.1466");
+				return valorUnitario;
+
+			default:
+				cotacao = new WSConsulta().getCotacao(Indice.DOLAR_VENDA, LocalDate.of(2018, 6, 7));
+				valorUnitario = cotacao.getValor();
+				return valorUnitario;
+			}
+
 		} catch (ServiceException e) {
 			e.printStackTrace();
 		}

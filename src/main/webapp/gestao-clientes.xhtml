@@ -1,0 +1,108 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/templates/Layout.xhtml"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<ui:define name="corpo">
+		<f:metadata>
+			<f:viewAction action="#{cadastroClienteBean.consultar}" />
+		</f:metadata>
+
+		<h1>Cadastro de Clientes</h1>
+
+		<h:form id="frm">
+
+			<p:messages id="msgs" />
+
+			<p:toolbar id="toolbar">
+				<f:facet name="left">
+					<p:commandButton value="Novo" icon="ui-icon-document"
+						action="#{cadastroClienteBean.prepararNovoCadastro}"
+						process="@this" update="cliente-dialog"
+						oncomplete="PF('edicaoClienteDialog').show()">
+						<p:resetInput target="cliente-dialog" />
+					</p:commandButton>
+
+					<span class="ui-separator"> <span
+						class="ui-icon ui-icon-grip-dotted-vertical" />
+					</span>
+
+					<p:commandButton icon="ui-icon-pencil" title="Editar"
+						process="@this" update="cliente-dialog"
+						oncomplete="PF('edicaoClienteDialog').show()"
+						disabled="#{cadastroClienteBean.clienteSelecionado == null}">
+						<p:resetInput target="cliente-dialog" />
+
+						<f:setPropertyActionListener
+							value="#{cadastroClienteBean.clienteSelecionado}"
+							target="#{cadastroClienteBean.clienteEdicao}" />
+					</p:commandButton>
+
+					<p:commandButton icon="ui-icon-trash" title="Excluir"
+						process="@this" update="clientes-table msgs toolbar"
+						action="#{cadastroClienteBean.excluir}"
+						disabled="#{cadastroClienteBean.clienteSelecionado == null}" />
+
+					<p:commandButton icon="ui-icon-arrowthick-1-s"
+						title="Exportar para XLS" />
+				</f:facet>
+			</p:toolbar>
+
+			<p:dataTable value="#{cadastroClienteBean.todosClientes}"
+				var="cliente" emptyMessage="Nenhum cliente cadastrado." rows="10"
+				paginator="true" paginatorPosition="bottom" style="margin-top: 10px"
+				id="clientes-table"
+				selection="#{cadastroClienteBean.clienteSelecionado}"
+				selectionMode="single" rowKey="#{cliente.id}">
+
+				<p:ajax event="rowSelect" update=":frm:toolbar" />
+				<p:ajax event="rowUnselect" update=":frm:toolbar" />
+
+				<p:column headerText="Nome" sortBy="#{cliente.nome}">
+					<h:outputText value="#{cliente.nome}" />
+				</p:column>
+				<p:column headerText="E-mail" width="250">
+					<h:outputText value="#{cliente.email}" />
+				</p:column>
+				<p:column headerText="CPF" width="120">
+					<h:outputText value="#{cliente.cpf}" />
+				</p:column>
+			</p:dataTable>
+
+			<p:dialog header="Novo cliente" widgetVar="edicaoClienteDialog"
+				id="cliente-dialog" resizable="false" modal="true"
+				closeOnEscape="true">
+
+				<p:messages id="msgs-dialog" />
+				<p:defaultCommand target="salvar-button" scope="cliente-dialog" />
+
+				<h:panelGrid columns="2" id="painel-dialog">
+					<p:outputLabel value="Nome" for="nome" />
+					<p:inputText id="nome" size="60" maxlength="80"
+						value="#{cadastroClienteBean.clienteEdicao.nome}" />
+
+					<p:outputLabel value="E-mail" for="email" />
+					<p:inputText id="email" size="60" maxlength="120"
+						value="#{cadastroClienteBean.clienteEdicao.email}" />
+
+					<p:outputLabel value="CPF" for="cpf" />
+					<p:inputMask id="cpf" size="18" maxlength="18"
+						value="#{cadastroClienteBean.clienteEdicao.cpf}"
+						mask="999.999.999-99" />
+
+
+					<p:outputLabel />
+					<p:commandButton value="Salvar" id="salvar-button"
+						action="#{cadastroClienteBean.salvar}" process="cliente-dialog"
+						update="msgs-dialog painel-dialog"
+						oncomplete="if (!args.validationFailed) PF('edicaoClienteDialog').hide()" />
+				</h:panelGrid>
+			</p:dialog>
+
+		</h:form>
+
+	</ui:define>
+</ui:composition>
