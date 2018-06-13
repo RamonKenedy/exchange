@@ -23,8 +23,11 @@
 					styleClass="panelgrid-noborder"
 					columnClasses="ui-grid-col-8, ui-grid-col-4">
 					<p:outputLabel for="cliente" value="Cliente" />
-					<p:inputText id="cliente"
-						value="#{cadastroTransacaoBean.transacao.cliente}" />
+					<p:selectOneMenu id="cliente"
+						value="#{cadastroTransacaoBean.cliente}">
+						<f:selectItem itemLabel="Selecione" itemValue="" />
+						<f:selectItems value="#{cadastroTransacaoBean.clientesTela}" />
+					</p:selectOneMenu>
 					<p:outputLabel value="Você deseja" for="tipo" />
 					<p:selectOneMenu id="tipo"
 						value="#{cadastroTransacaoBean.transacao.tipoCambio}">

@@ -6,12 +6,12 @@
 	template="/WEB-INF/templates/Layout.xhtml"
 	xmlns:pe="http://primefaces.org/ui/extensions">
 
-	<ui:define name="corpo">
+	<ui:define name="content">
 		<f:metadata>
 			<f:viewAction action="#{cadastroClienteBean.consultar}" />
 		</f:metadata>
 
-		<h1>Cadastro de Clientes</h1>
+		<h1 class="aw-page-title">Cadastro de Clientes</h1>
 
 		<h:form id="frm">
 
@@ -46,8 +46,6 @@
 						action="#{cadastroClienteBean.excluir}"
 						disabled="#{cadastroClienteBean.clienteSelecionado == null}" />
 
-					<p:commandButton icon="ui-icon-arrowthick-1-s"
-						title="Exportar para XLS" />
 				</f:facet>
 			</p:toolbar>
 

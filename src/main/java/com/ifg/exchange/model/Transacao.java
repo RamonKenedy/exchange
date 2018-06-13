@@ -11,9 +11,11 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import javax.xml.rpc.ServiceException;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -30,8 +32,9 @@ public class Transacao {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@NotEmpty
-	private String cliente;
+	@NotNull
+	@ManyToOne
+	private Cliente cliente;
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "tipo_cambio")
@@ -45,9 +48,6 @@ public class Transacao {
 
 	@Column(name = "valor_unit", nullable = false, precision = 10, scale = 2)
 	private BigDecimal valorUnitario = BigDecimal.ZERO;
-
-	@Column(name = "dias_entrega")
-	private Integer diasEntrega;
 
 	@Temporal(TemporalType.DATE)
 	private Date data;
@@ -64,11 +64,11 @@ public class Transacao {
 		this.id = id;
 	}
 
-	public String getCliente() {
+	public Cliente getCliente() {
 		return cliente;
 	}
 
-	public void setCliente(String cliente) {
+	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
 
@@ -107,8 +107,9 @@ public class Transacao {
 				return valorUnitario;
 
 			case "peso":
-				//cotacao = new WSConsulta().getCotacao(Indice.PESO_ARGENTINO_VENDA, LocalDate.of(2018, 6, 7));
-				//valorUnitario = cotacao.getValor();
+				// cotacao = new WSConsulta().getCotacao(Indice.PESO_ARGENTINO_VENDA,
+				// LocalDate.of(2018, 6, 7));
+				// valorUnitario = cotacao.getValor();
 				valorUnitario = new BigDecimal("0.1466");
 				return valorUnitario;
 
@@ -126,14 +127,6 @@ public class Transacao {
 
 	public void setValorUnitario(BigDecimal valorUnitario) {
 		this.valorUnitario = valorUnitario;
-	}
-
-	public Integer getDiasEntrega() {
-		return diasEntrega;
-	}
-
-	public void setDiasEntrega(Integer diasEntrega) {
-		this.diasEntrega = diasEntrega;
 	}
 
 	public Date getData() {
