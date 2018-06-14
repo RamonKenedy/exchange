@@ -90,8 +90,6 @@
 					<p:inputMask id="cpf" size="18" maxlength="18"
 						value="#{cadastroClienteBean.clienteEdicao.cpf}"
 						mask="999.999.999-99" />
-
-
 					<p:outputLabel />
 					<p:commandButton value="Salvar" id="salvar-button"
 						action="#{cadastroClienteBean.salvar}" process="cliente-dialog"
@@ -99,7 +97,9 @@
 						oncomplete="if (!args.validationFailed) PF('edicaoClienteDialog').hide()" />
 				</h:panelGrid>
 			</p:dialog>
-
+			<script type="text/javascript">
+				enterTab.aplicar();
+			</script>
 		</h:form>
 
 	</ui:define>

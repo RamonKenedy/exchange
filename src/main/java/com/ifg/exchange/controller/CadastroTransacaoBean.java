@@ -48,7 +48,6 @@ public class CadastroTransacaoBean implements Serializable {
 
 	public void prepararNovoCadastro() {
 		transacaoEdicao = new Transacao();
-		transacaoEdicao.setMoeda("dolar");
 		consultarClientes();
 	}
 

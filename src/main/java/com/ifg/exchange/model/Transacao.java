@@ -41,7 +41,7 @@ public class Transacao {
 	private TipoCambio tipoCambio;
 
 	@NotEmpty
-	private String moeda;
+	private String moeda = "dolar";
 
 	@Column(nullable = false, precision = 10, scale = 2)
 	private BigDecimal quantidade = BigDecimal.ZERO;
@@ -102,19 +102,20 @@ public class Transacao {
 			switch (getMoeda()) {
 
 			case "euro":
-				cotacao = new WSConsulta().getCotacao(Indice.EURO_VENDA, LocalDate.of(2018, 6, 7));
+				cotacao = new WSConsulta().getCotacao(Indice.EURO_VENDA, LocalDate.now());
 				valorUnitario = cotacao.getValor();
 				return valorUnitario;
 
 			case "peso":
-				// cotacao = new WSConsulta().getCotacao(Indice.PESO_ARGENTINO_VENDA,
+				// cotacao = new
+				// WSConsulta().getCotacao(Indice.PESO_ARGENTINO_VENDA,
 				// LocalDate.of(2018, 6, 7));
 				// valorUnitario = cotacao.getValor();
 				valorUnitario = new BigDecimal("0.1466");
 				return valorUnitario;
 
 			default:
-				cotacao = new WSConsulta().getCotacao(Indice.DOLAR_VENDA, LocalDate.of(2018, 6, 7));
+				cotacao = new WSConsulta().getCotacao(Indice.DOLAR_VENDA, LocalDate.now());
 				valorUnitario = cotacao.getValor();
 				return valorUnitario;
 			}

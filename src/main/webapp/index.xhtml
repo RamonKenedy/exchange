@@ -9,65 +9,12 @@
 	<ui:define name="content">
 		<h1 style="color: #FF8C00; margin-left: 100px; padding: 20px 0;">Compre
 			dólar com a melhor cotação e receba em casa</h1>
-		<h3 style="color: #BEBEBE; margin-left: 60px; padding: 20px 0;">A
+		<h1 style="color: #BEBEBE; margin-left: 60px; padding: 20px 0;">A
 			sua viagem começa aqui! Economize comprando em uma casa de câmbio
-			online.</h3>
+			online.</h1>
 
 		<h:form id="frm">
-
-			<p:messages autoUpdate="false" />
-
-			<div class="ui-fluid">
-				<p:panelGrid id="capaPanel" columns="1" layout="grid"
-					style="margin-top: 20px; margin-bottom: 40px"
-					styleClass="panelgrid-noborder"
-					columnClasses="ui-grid-col-8, ui-grid-col-4">
-					<p:outputLabel for="cliente" value="Cliente" />
-					<p:selectOneMenu id="cliente"
-						value="#{cadastroTransacaoBean.cliente}">
-						<f:selectItem itemLabel="Selecione" itemValue="" />
-						<f:selectItems value="#{cadastroTransacaoBean.clientesTela}" />
-					</p:selectOneMenu>
-					<p:outputLabel value="Você deseja" for="tipo" />
-					<p:selectOneMenu id="tipo"
-						value="#{cadastroTransacaoBean.transacao.tipoCambio}">
-						<f:selectItem itemLabel="Compra" itemValue="COMPRA" />
-						<f:selectItem itemLabel="Venda" itemValue="VENDA" />
-						<p:ajax event="change" update="buttonFinalizar" />
-					</p:selectOneMenu>
-					<p:outputLabel value="Selecione a moeda" for="moeda" />
-					<p:selectOneMenu id="moeda"
-						value="#{cadastroTransacaoBean.transacao.moeda}">
-						<f:selectItem itemLabel="Dólar" itemValue="dolar" />
-						<f:selectItem itemLabel="Euro" itemValue="euro" />
-						<f:selectItem itemLabel="Peso Argentino" itemValue="peso" />
-						<p:ajax event="change" update="idValorUnit, idValorTotal"
-							process="@this" />
-					</p:selectOneMenu>
-					<p:outputLabel value="Informe a quantidade desejada"
-						for="qtdeSpinner" />
-					<p:spinner id="qtdeSpinner"
-						value="#{cadastroTransacaoBean.transacao.quantidade}" prefix="$"
-						min="0">
-						<p:ajax update="idValorTotal" process="@this" />
-					</p:spinner>
-					<p:outputLabel value="Valor Unitário" />
-					<p:outputLabel id="idValorUnit"
-						value="$ #{cadastroTransacaoBean.transacao.valorUnitario}"
-						style="font-weight: bold;" />
-					<p:outputLabel value="Valor Total" />
-					<p:outputLabel id="idValorTotal"
-						value="$ #{cadastroTransacaoBean.transacao.valorTotal}"
-						style="font-weight: bold;" />
-					<p:commandButton id="buttonFinalizar"
-						value="#{cadastroTransacaoBean.nomeBotao}"
-						action="#{cadastroTransacaoBean.salvar}" process="@this capaPanel"
-						update="@form" />
-				</p:panelGrid>
-			</div>
-			<script type="text/javascript">
-				enterTab.aplicar();
-			</script>
+			<h:graphicImage library="algaworks" name="images/money2.jpg" />
 		</h:form>
 
 	</ui:define>

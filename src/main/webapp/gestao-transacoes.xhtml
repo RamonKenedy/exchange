@@ -102,14 +102,14 @@
 						<f:selectItem itemLabel="Selecione" itemValue="" />
 						<f:selectItems value="#{cadastroTransacaoBean.clientesTela}" />
 					</p:selectOneMenu>
-					<p:outputLabel value="Você deseja" for="tipo" />
+					<p:outputLabel value="Tipo" for="tipo" />
 					<p:selectOneMenu id="tipo"
 						value="#{cadastroTransacaoBean.transacaoEdicao.tipoCambio}">
 						<f:selectItem itemLabel="Compra" itemValue="COMPRA" />
 						<f:selectItem itemLabel="Venda" itemValue="VENDA" />
 						<p:ajax event="change" update="salvar-button" />
 					</p:selectOneMenu>
-					<p:outputLabel value="Selecione a moeda" for="moeda" />
+					<p:outputLabel value="Moeda:" for="moeda" />
 					<p:selectOneMenu id="moeda"
 						value="#{cadastroTransacaoBean.transacaoEdicao.moeda}">
 						<f:selectItem itemLabel="Dólar" itemValue="dolar" />
@@ -118,31 +118,32 @@
 						<p:ajax event="change" update="idValorUnit, idValorTotal"
 							process="@this" />
 					</p:selectOneMenu>
-					<p:outputLabel value="Informe a quantidade desejada"
-						for="qtdeSpinner" />
+					<p:outputLabel value="Quantidade:" for="qtdeSpinner" />
 					<p:spinner id="qtdeSpinner"
 						value="#{cadastroTransacaoBean.transacaoEdicao.quantidade}"
 						prefix="$" min="0">
 						<p:ajax update="idValorTotal" process="@this" />
 					</p:spinner>
-					<p:outputLabel value="Valor Unitário" />
+					<p:outputLabel value="Valor Unitário:" />
 					<p:outputLabel id="idValorUnit"
 						value="$ #{cadastroTransacaoBean.transacaoEdicao.valorUnitario}"
 						style="font-weight: bold;" />
-					<p:outputLabel value="Valor Total" />
+					<p:outputLabel value="Valor Total:" />
 					<p:outputLabel id="idValorTotal"
 						value="$ #{cadastroTransacaoBean.transacaoEdicao.valorTotal}"
 						style="font-weight: bold;" />
-					<p:outputLabel />
-					<p:commandButton id="salvar-button"
-						value="#{cadastroTransacaoBean.nomeBotao}"
-						action="#{cadastroTransacaoBean.salvar}"
-						process="transacao-dialog" update="msgs-dialog painel-dialog"
-						oncomplete="if (!args.validationFailed) PF('edicaoTransacaoDialog').hide()" />
 
 				</h:panelGrid>
+				<p:separator />
+				<p:commandButton id="salvar-button"
+					value="#{cadastroTransacaoBean.nomeBotao}"
+					action="#{cadastroTransacaoBean.salvar}" process="transacao-dialog"
+					update="msgs-dialog painel-dialog"
+					oncomplete="if (!args.validationFailed) PF('edicaoTransacaoDialog').hide()" />
 			</p:dialog>
-
+			<script type="text/javascript">
+				enterTab.aplicar();
+			</script>
 		</h:form>
 
 	</ui:define>

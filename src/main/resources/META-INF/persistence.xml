@@ -12,9 +12,11 @@
 			<property name="javax.persistence.jdbc.password" value="leirra" />
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
 
-			<property name="javax.persistence.schema-generation.database.action" value="update" />
-      		<property name="javax.persistence.schema-generation.create-source" value="metadata" />
-      		
+			<property name="javax.persistence.schema-generation.database.action"
+				value="update" />
+			<property name="javax.persistence.schema-generation.create-source"
+				value="metadata" />
+
 			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.format_sql" value="true" />
 		</properties>
