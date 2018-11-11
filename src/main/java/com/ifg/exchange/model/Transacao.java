@@ -99,24 +99,57 @@ public class Transacao {
 	public BigDecimal getValorUnitario() {
 		try {
 			Cotacao cotacao;
+			LocalDate dataManipulacao = LocalDate.now();
+			// data atual menos 1 dia
+			LocalDate dataManipulacao1 = dataManipulacao.minusDays(1);
+			// data atual menos 2 dia
+			LocalDate dataManipulacao2 = dataManipulacao.minusDays(2);
 			switch (getMoeda()) {
 
 			case "euro":
-				cotacao = new WSConsulta().getCotacao(Indice.EURO_VENDA, LocalDate.now());
-				valorUnitario = cotacao.getValor();
+				cotacao = new WSConsulta().getCotacao(Indice.EURO_VENDA, dataManipulacao);
+				if (cotacao == null) {
+					cotacao = new WSConsulta().getCotacao(Indice.EURO_VENDA, dataManipulacao1);
+
+				}
+				if (cotacao == null) {
+					cotacao = new WSConsulta().getCotacao(Indice.EURO_VENDA, dataManipulacao2);
+				}
+				if (cotacao != null)
+					valorUnitario = cotacao.getValor();
+				else
+					valorUnitario = BigDecimal.ZERO;
 				return valorUnitario;
 
 			case "peso":
-				// cotacao = new
-				// WSConsulta().getCotacao(Indice.PESO_ARGENTINO_VENDA,
-				// LocalDate.of(2018, 6, 7));
-				// valorUnitario = cotacao.getValor();
-				valorUnitario = new BigDecimal("0.1466");
+				cotacao = new WSConsulta().getCotacao(Indice.PESO_ARGENTINO_VENDA, dataManipulacao);
+				if (cotacao == null) {
+					cotacao = new WSConsulta().getCotacao(Indice.PESO_ARGENTINO_VENDA, dataManipulacao1);
+
+				}
+				if (cotacao == null) {
+					cotacao = new WSConsulta().getCotacao(Indice.PESO_ARGENTINO_VENDA, dataManipulacao2);
+				}
+				if (cotacao != null)
+					valorUnitario = cotacao.getValor();
+				else
+					valorUnitario = BigDecimal.ZERO;
+
 				return valorUnitario;
 
 			default:
-				cotacao = new WSConsulta().getCotacao(Indice.DOLAR_VENDA, LocalDate.now());
-				valorUnitario = cotacao.getValor();
+				cotacao = new WSConsulta().getCotacao(Indice.DOLAR_VENDA, dataManipulacao);
+				if (cotacao == null) {
+					cotacao = new WSConsulta().getCotacao(Indice.DOLAR_VENDA, dataManipulacao1);
+
+				}
+				if (cotacao == null) {
+					cotacao = new WSConsulta().getCotacao(Indice.DOLAR_VENDA, dataManipulacao2);
+				}
+				if (cotacao != null)
+					valorUnitario = cotacao.getValor();
+				else
+					valorUnitario = BigDecimal.ZERO;
 				return valorUnitario;
 			}
 
